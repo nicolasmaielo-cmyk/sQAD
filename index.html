@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Método Nicolas PRO ELITE FINAL - Padrão AESIC</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+body{margin:0;font-family:'Segoe UI',Arial,sans-serif;background:#0b0b0b;color:#fff;line-height:1.5}
+.container{padding:20px;max-width:1000px;margin:auto}
+.card{background:#111;padding:20px;border-radius:12px;margin-bottom:15px;border:1px solid #222}
+h2{text-align:center;color:#22c55e;text-transform:uppercase;letter-spacing:2px}
+h3{color:#22c55e;border-bottom:1px solid #333;padding-bottom:5px;margin-bottom:15px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:10px}
+input,select{width:100%;padding:12px;margin:5px 0;border-radius:8px;border:1px solid #333;background:#1a1a1a;color:#fff;box-sizing:border-box}
+input:focus{border-color:#22c55e;outline:none}
+button{width:100%;padding:15px;background:#22c55e;border:none;border-radius:10px;font-weight:bold;cursor:pointer;margin-top:10px;transition:0.3s}
+button:hover{background:#16a34a;transform:translateY(-2px)}
+.btn-pdf{background:#3b82f6;margin-top:5px}
+.btn-history{background:#6366f1;margin-top:5px}
+label{font-size:12px;color:#888;display:block;margin-top:5px}
+#feedback{text-align:center;padding:10px;display:none;font-weight:bold;border-radius:8px;margin-top:10px}
+.new-field {border-left: 3px solid #3b82f6;}
+</style>
+</head>
+<body>
+
+<div class="container">
+<h2>MÉTODO NICOLAS PRO ELITE FINAL <span style="font-size:12px;display:block;color:#666">SISTEMA DE INTELIGÊNCIA CLÍNICA AESIC</span></h2>
+
+<div class="card">
+<h3>Anamnese Clínica</h3>
+<div class="grid">
+    <input id="nome" placeholder="Nome do Paciente">
+    <input id="idade" type="number" placeholder="Idade (anos)">
+    <input id="peso" type="number" step="0.1" placeholder="Peso (kg)">
+    <input id="altura" type="number" step="0.01" placeholder="Altura (m)">
+    <select id="sexo">
+        <option value="M">Masculino</option>
+        <option value="F">Feminino</option>
+    </select>
+</div>
+</div>
+
+<div class="card">
+<h3>Mapeamento de Dor Clínica</h3>
+<div class="grid">
+    <div>
+        <label>Nível de Dor (0 a 10)</label>
+        <input id="dorNivel" type="number" min="0" max="10" value="0">
+    </div>
+    <div>
+        <label>Localização da Dor</label>
+        <input id="dorLocal" placeholder="Ex: Lombar, Joelho D">
+    </div>
+    <div>
+        <label>Tipo de Dor</label>
+        <select id="dorTipo">
+            <option value="Nenhuma">Nenhuma</option>
+            <option value="Pontada">Pontada</option>
+            <option value="Queimação">Queimação</option>
+            <option value="Pressão">Pressão</option>
+            <option value="Irradiada">Irradiada</option>
+        </select>
+    </div>
+    <div>
+        <label>Momento da Dor</label>
+        <select id="dorMomento">
+            <option value="Nenhum">Nenhum</option>
+            <option value="Repouso">Repouso</option>
+            <option value="Movimento">Movimento</option>
+            <option value="Pós-treino">Pós-treino</option>
+        </select>
+    </div>
+</div>
+</div>
+
+<div class="card">
+<h3>Histórico de Lesões (Padrão Clínico)</h3>
+<div class="grid">
+    <div>
+        <label>Joelho</label>
+        <select id="joelho">
+            <option value="Nenhuma">Nenhuma</option>
+            <option>LCA</option><option>LCP</option><option>Menisco</option>
+            <option>Condromalácia</option><option>Tendinite patelar</option>
+            <option>Síndrome femoropatelar</option>
+        </select>
+    </div>
+    <div>
+        <label>Ombro</label>
+        <select id="ombro">
+            <option value="Nenhuma">Nenhuma</option>
+            <option>Manguito rotador</option><option>Impacto subacromial</option>
+            <option>Luxação</option><option>Instabilidade</option><option>Bursite</option>
+        </select>
+    </div>
+    <div>
+        <label>Coluna</label>
+        <select id="coluna">
+            <option value="Nenhuma">Nenhuma</option>
+            <option>Hérnia de disco</option><option>Lombalgia</option>
+            <option>Escoliose</option><option>Retificação cervical</option><option>Hipercifose</option>
+        </select>
+    </div>
+    <div>
+        <label>Tornozelo/Pé</label>
+        <select id="tornozelo">
+            <option value="Nenhuma">Nenhuma</option>
+            <option>Entorse</option><option>Instabilidade</option>
+            <option>Tendinite</option><option>Fascite plantar</option>
+        </select>
+    </div>
+</div>
+<label>Gravidade da Condição</label>
+<select id="gravidade"><option value="Leve">Leve</option><option value="Moderada">Moderada</option><option value="Grave">Grave</option></select>
+</div>
+
+<div class="card">
+<h3>Avaliação Postural Estática</h3>
+<select id="postura" multiple size="8">
+    <option value="Hiperlordose lombar">Hiperlordose lombar</option>
+    <option value="Hipercifose torácica">Hipercifose torácica</option>
+    <option value="Retificação cervical">Retificação cervical</option>
+    <option value="Escápula alada">Escápula alada</option>
+    <option value="Ombros protraídos">Ombros protraídos</option>
+    <option value="Cabeça anteriorizada">Cabeça anteriorizada</option>
+    <option value="Anteversão pélvica">Anteversão pélvica</option>
+    <option value="Retroversão pélvica">Retroversão pélvica</option>
+    <option value="Joelho valgo">Joelho valgo</option>
+    <option value="Joelho varo">Joelho varo</option>
+    <option value="Pé pronado">Pé pronado</option>
+    <option value="Pé supinado">Pé supinado</option>
+</select>
+</div>
+
+<div class="card">
+<h3>Avaliação de Movimento (Funcional)</h3>
+<div class="grid">
+    <div>
+        <label>Qualidade do Agachamento</label>
+        <select id="movAgacho">
+            <option value="Bom">Bom</option>
+            <option value="Regular">Regular</option>
+            <option value="Ruim">Ruim</option>
+        </select>
+    </div>
+    <div>
+        <label>Mobilidade Tornozelo</label>
+        <select id="movTornozelo">
+            <option value="Normal">Normal</option>
+            <option value="Limitada">Limitada</option>
+        </select>
+    </div>
+    <div>
+        <label>Mobilidade Ombro</label>
+        <select id="movOmbro">
+            <option value="Normal">Normal</option>
+            <option value="Limitada">Limitada</option>
+        </select>
+    </div>
+    <div>
+        <label>Controle de Core</label>
+        <select id="movCore">
+            <option value="Bom">Bom</option>
+            <option value="Fraco">Fraco</option>
+        </select>
+    </div>
+</div>
+</div>
+
+<div class="card">
+<h3>Dados de Bioimpedância (Elite)</h3>
+<div class="grid">
+    <div><label>% Gordura</label><input id="bf" type="number" step="0.1" placeholder="BF %"></div>
+    <div><label>Massa Magra (kg)</label><input id="mm" type="number" step="0.1" placeholder="kg"></div>
+    <div><label>Água Corporal %</label><input id="agua" type="number" step="0.1" placeholder="%"></div>
+    <div><label>Gordura Visceral</label><input id="gv" type="number" placeholder="Nível"></div>
+</div>
+</div>
+
+<div class="card">
+<h3>Antropometria (cm)</h3>
+<div class="grid">
+    <div><label>Braço D Contraído</label><input id="bracoDC" type="number" step="0.1" placeholder="cm"></div>
+    <div><label>Braço E Contraído</label><input id="bracoEC" type="number" step="0.1" placeholder="cm"></div>
+    <div><label>Coxa D</label><input id="coxaD" type="number" step="0.1" placeholder="cm"></div>
+    <div><label>Coxa E</label><input id="coxaE" type="number" step="0.1" placeholder="cm"></div>
+    <div><label>Cintura</label><input id="cintura" type="number" step="0.1" placeholder="cm"></div>
+    <div><label>Quadril</label><input id="quadril" type="number" step="0.1" placeholder="cm"></div>
+</div>
+</div>
+
+<div class="card">
+<h3>Performance e Cardio</h3>
+<div class="grid">
+    <input id="fcR" type="number" placeholder="FC Repouso (bpm)">
+    <input id="fcP" type="number" placeholder="FC Pós-Esforço (bpm)">
+    <input id="dist" type="number" placeholder="Distância 12min (m)">
+    <input id="velFinal" class="new-field" type="number" step="0.1" placeholder="Vel. Final (km/h)">
+    <input id="tempoTeste" class="new-field" type="number" step="0.1" placeholder="Tempo Total (min)">
+    <input id="fd" type="number" placeholder="Força Preensão D (kg)">
+    <input id="fe" type="number" placeholder="Força Preensão E (kg)">
+    <div>
+        <label>RPE (Esforço 0-10)</label>
+        <input id="rpe" type="number" placeholder="RPE">
+    </div>
+</div>
+</div>
+
+<div id="feedback"></div>
+<button onclick="calc()">CALCULAR DIAGNÓSTICO PROFISSIONAL</button>
+<button class="btn-pdf" onclick="pdf()">GERAR RELATÓRIO PDF AESIC</button>
+<button class="btn-history" onclick="loadLast()">CARREGAR ÚLTIMA AVALIAÇÃO</button>
+
+</div>
+
+<script>
+let R={};
+
+function get(id){return parseFloat(document.getElementById(id)?.value)||0;}
+function getS(id){return document.getElementById(id)?.value || "Nenhuma";}
+
+function calc(){
+    // 1. DADOS BÁSICOS
+    R.nome = document.getElementById("nome").value;
+    R.sexo = getS("sexo");
+    R.idade = get("idade");
+    R.gravidade = getS("gravidade");
+    let alt = get("altura");
+    let peso = get("peso");
+    R.imc = (peso / (alt * alt)) || 0;
+
+    // 2. ANTROPOMETRIA E ASSIMETRIA
+    const assPerc = (d, e) => (Math.abs(d - e) / ((d + e) / 2 || 1)) * 100;
+    R.asimForca = assPerc(get("fd"), get("fe"));
+    R.rcq = get("cintura") / (get("quadril") || 1);
+
+    // 3. PERFORMANCE E CARDIO
+    R.vo2 = (get("dist") - 504.9) / 44.73;
+    R.velFinal = get("velFinal");
+    R.tempoTeste = get("tempoTeste");
+    R.vo2_vel = R.velFinal * 3.5;
+    R.recuperacao = get("fcP") - get("fcR");
+    R.rpe = get("rpe");
+
+    // 4. POSTURA E MOVIMENTO
+    R.posturas = [...document.getElementById("postura").selectedOptions].map(o => o.value);
+    R.dorNivel = get("dorNivel");
+    R.movAgacho = getS("movAgacho");
+    R.movCore = getS("movCore");
+    R.movTornozelo = getS("movTornozelo");
+    R.movOmbro = getS("movOmbro");
+    R.l_joelho = getS("joelho");
+    R.l_ombro = getS("ombro");
+    R.l_coluna = getS("coluna");
+    R.l_tornozelo = getS("tornozelo");
+
+    // 5. SCORE BASE
+    let baseScore = 100 - (R.posturas.length * 5) - (R.dorNivel * 4) - (R.asimForca > 15 ? 10 : 0);
+    R.score = Math.max(0, baseScore);
+
+    // PERFIL
+    if(R.score < 50 || R.vo2 < 25) R.perfilAluno = "REABILITAÇÃO";
+    else if(R.score < 70 || R.vo2 < 35) R.perfilAluno = "ADAPTAÇÃO";
+    else if(R.score < 85) R.perfilAluno = "PERFORMANCE CONTROLADA";
+    else R.perfilAluno = "PERFORMANCE AVANÇADA";
+
+    // DECISÃO AESIC
+    R.baseDecisao = { risco: 0, intensidadeNivel: 2, score: R.score };
+    if(R.dorNivel >= 6) R.baseDecisao.risco += 3;
+    else if(R.dorNivel > 0) R.baseDecisao.risco += 1;
+    if(R.l_coluna !== "Nenhuma" || R.l_joelho !== "Nenhuma") R.baseDecisao.risco += 2;
+
+    // METABÓLICO
+    let bf = get("bf");
+    let gv = get("gv");
+    let agua = get("agua");
+    let limiteBF = R.sexo === "M" ? 22 : 30;
+    
+    if(bf > limiteBF) { R.baseDecisao.risco += 1; R.estadoMetabolico = "Perfil metabólico lipídico; foco em ênfase metabólica."; }
+    else { R.estadoMetabolico = "Perfil metabólico estável."; }
+
+    if(agua < 50) { R.estadoHidrico = "Desidratação intracelular detectada; redução de intensidade."; R.baseDecisao.intensidadeNivel = 1; }
+    else { R.estadoHidrico = "Níveis de hidratação adequados."; }
+
+    // ==========================================
+    // CAMADA DE CORRELAÇÃO INDIVIDUALIZADA AESIC
+    // ==========================================
+    R.correcaoFuncional = [];
+
+    const dbFuncional = {
+        // JOELHO
+        "LCA": { 
+            prioridade_base: 3,
+            estabilizadores: "Quadríceps, Isquiotibiais, Glúteo médio", 
+            exercicios_iniciais: "Isometria de quadríceps, Ponte de glúteo, Step-up baixo",
+            exercicios_progressao: "Agachamento controlado, Afundo, Leg press leve",
+            evitar: "Rotação, Impacto", 
+            obs: "Foco em co-contração de isquiotibiais para estabilidade anterior." 
+        },
+        "LCP": { 
+            prioridade_base: 3,
+            estabilizadores: "Isquiotibiais, Glúteo", 
+            exercicios_iniciais: "Flexora leve, Isometria posterior, Ponte",
+            exercicios_progressao: "Agacho parcial, Stiff leve (amplitude curta)",
+            evitar: "Carga posterior excessiva", 
+            obs: "Evitar translação tibial posterior." 
+        },
+        "Menisco": { 
+            prioridade_base: 3,
+            estabilizadores: "Quadríceps, Glúteo médio", 
+            exercicios_iniciais: "Agacho parcial (45°), Step controlado",
+            exercicios_progressao: "Leg Press bilateral, Agachamento Sumô",
+            evitar: "Torção e Pivotagem", 
+            obs: "Monitorar crepitação e efusão articular." 
+        },
+        "Condromalácia": { 
+            prioridade_base: 2,
+            estabilizadores: "VMO (Vasto Medial), Glúteo médio", 
+            exercicios_iniciais: "Extensora leve (arco curto), Step-down, Abdução",
+            exercicios_progressao: "Agachamento com mini-band, Leg 45° amplitude controlada",
+            evitar: "Flexão profunda (acima de 90°)", 
+            obs: "Priorizar isometria em ângulos de menor pressão." 
+        },
+        "Tendinite patelar": { 
+            prioridade_base: 2,
+            estabilizadores: "Quadríceps", 
+            exercicios_iniciais: "Isometria de quadríceps (45°), Excêntrico leve em plano inclinado",
+            exercicios_progressao: "Agachamento búlgaro (fase lenta), Leg press unilateral",
+            evitar: "Saltos, Carga explosiva", 
+            obs: "Trabalho de carga progressiva no tendão." 
+        },
+        "Síndrome femoropatelar": { 
+            prioridade_base: 2,
+            estabilizadores: "VMO, Glúteo médio", 
+            exercicios_iniciais: "Controle de joelho (espelho), Abdução lateral",
+            exercicios_progressao: "Agachamento goblet, Step-up progressivo",
+            evitar: "Valgo dinâmico", 
+            obs: "Fortalecer complexo posterolateral do quadril." 
+        },
+        
+        // OMBRO
+        "Manguito rotador": { 
+            prioridade_base: 3,
+            estabilizadores: "Supraespinhal, Infraespinhal", 
+            exercicios_iniciais: "Rotação externa com elástico, Isometria de abdução",
+            exercicios_progressao: "Face pull, Remada alta controlada, Scaption",
+            evitar: "Overhead (acima da cabeça)", 
+            obs: "Foco em estabilização dinâmica da cabeça do úmero." 
+        },
+        "Impacto subacromial": { 
+            prioridade_base: 2,
+            estabilizadores: "Serrátil anterior, Trapézio inferior", 
+            exercicios_iniciais: "Mobilidade escapular (Scapular wall slides), Pendular",
+            exercicios_progressao: "Elevação lateral (plano da escápula), Remada neutra",
+            evitar: "Abdução com rotação interna", 
+            obs: "Melhorar o ritmo escapuloumeral." 
+        },
+        "Luxação": { 
+            prioridade_base: 3,
+            estabilizadores: "Deltoide, Manguito", 
+            exercicios_iniciais: "Isometria em vários ângulos, Estabilidade rítmica",
+            exercicios_progressao: "Prancha alta, Exercícios de perturbação controlada",
+            evitar: "Abdução + Rotação externa extrema", 
+            obs: "Propriocepção capsular é prioridade." 
+        },
+        "Instabilidade": { 
+            prioridade_base: 2,
+            estabilizadores: "Complexo escapular", 
+            exercicios_iniciais: "Controle escapular, Prancha com toque no ombro",
+            exercicios_progressao: "Push-up plus, Kettlebell bottoms-up",
+            evitar: "Amplitude extrema", 
+            obs: "Trabalho de perturbação controlada." 
+        },
+        "Bursite": { 
+            prioridade_base: 2,
+            estabilizadores: "Manguito", 
+            exercicios_iniciais: "Movimento leve (sem carga), Pendular",
+            exercicios_progressao: "Rotação externa leve, Estabilização horizontal",
+            evitar: "Compressão lateral (dormir sobre o ombro)", 
+            obs: "Respeitar arco doloroso." 
+        },
+
+        // COLUNA
+        "Hérnia de disco": { 
+            prioridade_base: 3,
+            estabilizadores: "Core profundo (Transverso, Multífidos)", 
+            exercicios_iniciais: "Prancha (Joelhos no chão), Bird dog estático",
+            exercicios_progressao: "Deadbug progressivo, Prancha lateral, Pallof press",
+            evitar: "Compressão axial, Flexão de tronco", 
+            obs: "Manter coluna neutra sob carga." 
+        },
+        "Lombalgia": { 
+            prioridade_base: 2,
+            estabilizadores: "Core, Glúteos", 
+            exercicios_iniciais: "Core + mobilidade de quadril (Cat-Cow), Ponte",
+            exercicios_progressao: "Levantamento terra (técnica), Remada curvada apoiada",
+            evitar: "Flexão lombar sob carga", 
+            obs: "Avaliar 'amnésia glútea'." 
+        },
+        "Escoliose": { 
+            prioridade_base: 1,
+            estabilizadores: "Paravertebrais", 
+            exercicios_iniciais: "Prancha lateral, Remada unilateral",
+            exercicios_progressao: "Farmer walk unilateral, Pallof press",
+            evitar: "Cargas assimétricas descontroladas", 
+            obs: "Foco no equilíbrio de tensões laterais." 
+        },
+        "Retificação cervical": { 
+            prioridade_base: 1,
+            estabilizadores: "Flexores profundos do pescoço", 
+            exercicios_iniciais: "Chin tuck (Retração cervical estática)",
+            exercicios_progressao: "Retração cervical com resistência leve",
+            evitar: "Posturas projetadas", 
+            obs: "Melhorar consciência postural alta." 
+        },
+        "Hipercifose torácica": { 
+            prioridade_base: 1,
+            estabilizadores: "Extensores torácicos, Romboides", 
+            exercicios_iniciais: "Alongamento peitoral, Y-Raise (chão)",
+            exercicios_progressao: "Remada aberta, Extensão torácica no rolo",
+            evitar: "Flexão torácica excessiva", 
+            obs: "Mobilidade de coluna torácica obrigatória." 
+        },
+
+        // TORNOZELO
+        "Entorse": { 
+            prioridade_base: 2,
+            estabilizadores: "Fibulares, Tibial anterior", 
+            exercicios_iniciais: "Propriocepção (unipodal), Equilíbrio",
+            exercicios_progressao: "Saltos controlados (aterrissagem), Band walks",
+            evitar: "Terrenos instáveis", 
+            obs: "Reeducação neuromuscular do tornozelo." 
+        },
+        "Instabilidade": { 
+            prioridade_base: 2,
+            estabilizadores: "Complexo do tornozelo", 
+            exercicios_iniciais: "Controle neuromuscular, Isometria de eversores",
+            exercicios_progressao: "Single leg deadlift, Pliometria leve",
+            evitar: "Inversão brusca", 
+            obs: "Fortalecimento de eversores." 
+        },
+        "Tendinite": { 
+            prioridade_base: 2,
+            estabilizadores: "Tríceps sural", 
+            exercicios_iniciais: "Isometria de panturrilha, Alongamento leve",
+            exercicios_progressao: "Panturrilha excêntrica lenta, Elevação unilateral",
+            evitar: "Carga de impacto súbita", 
+            obs: "Protocolo de carga tendinosa." 
+        },
+        "Fascite plantar": { 
+            prioridade_base: 1,
+            estabilizadores: "Músculos intrínsecos do pé", 
+            exercicios_iniciais: "Short foot (encurtar pé), Liberação com bolinha",
+            exercicios_progressao: "Caminhada descalço em grama, Fortalecimento de flexores",
+            evitar: "Impacto seco", 
+            obs: "Avaliar arco plantar." 
+        },
+
+        // POSTURA
+        "Hiperlordose lombar": { 
+            prioridade_base: 1,
+            estabilizadores: "Core, Glúteos", 
+            exercicios_iniciais: "Basculação pélvica, Prancha",
+            exercicios_progressao: "Deadlift (foco em neutro), Abdominais infra",
+            evitar: "Extensão lombar acentuada", 
+            obs: "Alongar flexores de quadril." 
+        },
+        "Escápula alada": { 
+            prioridade_base: 1,
+            estabilizadores: "Serrátil anterior", 
+            exercicios_iniciais: "Serratus punch, Prancha alta",
+            exercicios_progressao: "Push-up plus, Wall slides",
+            evitar: "Cargas pesadas de ombro", 
+            obs: "Foco na protração escapular consciente." 
+        },
+        "Ombros protraídos": { 
+            prioridade_base: 1,
+            estabilizadores: "Romboides", 
+            exercicios_iniciais: "Crucifixo inverso elástico, Alongamento peitoral",
+            exercicios_progressao: "Face Pull, Remada baixa (foco em adução)",
+            evitar: "Excesso de exercícios de empurrar", 
+            obs: "Abertura de cadeia anterior." 
+        },
+        "Cabeça anteriorizada": { 
+            prioridade_base: 1,
+            estabilizadores: "Cervical profundo", 
+            exercicios_iniciais: "Retração cervical",
+            exercicios_progressao: "Exercícios posturais de olhar",
+            evitar: "Uso de celular/monitor baixo", 
+            obs: "Correção de olhar e linha de horizonte." 
+        },
+        "Anteversão pélvica": { 
+            prioridade_base: 1,
+            estabilizadores: "Core, Isquiotibiais", 
+            exercicios_iniciais: "Ponte de glúteo, Deadbug",
+            exercicios_progressao: "Flexora, Agachamento com consciência pélvica",
+            evitar: "Salto alto", 
+            obs: "Ativar retroversão ativa." 
+        },
+        "Retroversão pélvica": { 
+            prioridade_base: 1,
+            estabilizadores: "Glúteo, Paravertebrais", 
+            exercicios_iniciais: "Mobilidade pélvica, Agachamento neutro",
+            exercicios_progressao: "Stiff (amplitude média), Bom-dia",
+            evitar: "Flexão excessiva de tronco", 
+            obs: "Recuperar curva lombar." 
+        },
+        "Joelho valgo": { 
+            prioridade_base: 1,
+            estabilizadores: "Glúteo médio", 
+            exercicios_iniciais: "Clamshell, Band walk lateral",
+            exercicios_progressao: "Agachamento com loop band no joelho",
+            evitar: "Agachamento com joelho para dentro", 
+            obs: "Controle do 'collapse' medial." 
+        },
+        "Joelho varo": { 
+            prioridade_base: 1,
+            estabilizadores: "Adutores", 
+            exercicios_iniciais: "Adução de pernas com bola, Agacho sumô leve",
+            exercicios_progressao: "Cadeira adutora, Lunge lateral",
+            evitar: "Impacto lateral", 
+            obs: "Equilibrar tensão medial." 
+        },
+        "Pé pronado": { 
+            prioridade_base: 1,
+            estabilizadores: "Tibial posterior", 
+            exercicios_iniciais: "Short foot, Elevação de arco",
+            exercicios_progressao: "Equilíbrio unipodal dinâmico",
+            evitar: "Calçados sem suporte", 
+            obs: "Elevação do arco medial." 
+        },
+        "Pé supinado": { 
+            prioridade_base: 1,
+            estabilizadores: "Fibulares", 
+            exercicios_iniciais: "Fortalecimento de eversores",
+            exercicios_progressao: "Caminhada focando no 1º metatarso",
+            evitar: "Inversão súbita", 
+            obs: "Distribuir carga no 1º metatarso." 
+        }
+    };
+
+    // Processamento com Camada de Prioridade e Gravidade
+    const processar = (val) => { 
+        if(dbFuncional[val]) {
+            let item = JSON.parse(JSON.stringify(dbFuncional[val])); // Clone
+            
+            // Definição de Prioridade AESIC
+            let p = "BAIXA";
+            if(R.dorNivel >= 7 || item.prioridade_base >= 3) p = "ALTA";
+            else if(item.prioridade_base >= 2) p = "MÉDIA";
+            item.prioridadeLabel = p;
+            item.prioridadeNum = (p === "ALTA" ? 3 : (p === "MÉDIA" ? 2 : 1));
+            
+            // Filtro por Gravidade
+            if(R.gravidade === "Grave") {
+                item.exerciciosRecomendados = "INICIAIS: " + item.exercicios_iniciais;
+            } else if(R.gravidade === "Moderada") {
+                item.exerciciosRecomendados = "INICIAIS: " + item.exercicios_iniciais + " | PROGRESSÃO: " + item.exercicios_progressao.split(',')[0];
+            } else {
+                item.exerciciosRecomendados = "INICIAIS: " + item.exercicios_iniciais + " | PROGRESSÃO: " + item.exercicios_progressao;
+            }
+
+            R.correcaoFuncional.push({condicao: val, ...item});
+        }
+    };
+
+    processar(R.l_joelho);
+    processar(R.l_ombro);
+    processar(R.l_coluna);
+    processar(R.l_tornozelo);
+    R.posturas.forEach(p => processar(p));
+
+    // Correções de Movimento
+    if(R.movAgacho === "Ruim") R.correcaoFuncional.push({ condicao: "Padrão Agachamento Deficiente", prioridadeNum: 2, prioridadeLabel: "MÉDIA", exerciciosRecomendados: "Agachamento com contra-peso, Mobilidade de quadril", obs: "Correção técnica de padrão de movimento básica." });
+    if(R.movCore === "Fraco") R.correcaoFuncional.push({ condicao: "Instabilidade de Core", prioridadeNum: 2, prioridadeLabel: "MÉDIA", exerciciosRecomendados: "Deadbug, Bird dog, Prancha isométrica", obs: "Base para qualquer progressão de carga." });
+    
+    // Ordenar por Prioridade (ALTA -> MÉDIA -> BAIXA)
+    R.correcaoFuncional.sort((a, b) => b.prioridadeNum - a.prioridadeNum);
+
+    document.getElementById("feedback").style.display = "block";
+    document.getElementById("feedback").innerHTML = `DIAGNÓSTICO CALCULADO: ${R.perfilAluno} (SCORE: ${R.score.toFixed(1)})`;
+    localStorage.setItem("lastAESIC", JSON.stringify(R));
+}
+
+function pdf(){
+    if(!R.nome) { alert("Calcule o diagnóstico primeiro!"); return; }
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    let y = 20;
+
+    const head = (txt) => { doc.setFontSize(14); doc.setTextColor(34, 197, 94); doc.text(txt, 20, y); y+=10; doc.setTextColor(0); doc.setFontSize(10); };
+    const line = (txt) => { doc.text(txt, 20, y); y+=6; if(y>280){doc.addPage(); y=20;} };
+
+    doc.setFont("helvetica", "bold");
+    doc.text("RELATÓRIO CLÍNICO AESIC - MÉTODO NICOLAS PRO ELITE", 105, y, {align:"center"});
+    y+=15;
+
+    head("1. IDENTIFICAÇÃO E SCORE");
+    line(`Paciente: ${R.nome} | Perfil: ${R.perfilAluno}`);
+    line(`Score de Integridade: ${R.score.toFixed(1)}/100 | Gravidade Geral: ${R.gravidade}`);
+    line(`VO2 Estimado: ${R.vo2.toFixed(1)} ml/kg/min | Dor Nível: ${R.dorNivel}/10`);
+    y+=5;
+
+    head("2. ANÁLISE METABÓLICA E HÍDRICA");
+    line(R.estadoMetabolico);
+    line(R.estadoHidrico);
+    y+=5;
+
+    head("3. PROTOCOLO INDIVIDUALIZADO (ORDEM DE PRIORIDADE)");
+    if(R.correcaoFuncional.length === 0) {
+        line("Nenhuma restrição funcional severa detectada.");
+    } else {
+        R.correcaoFuncional.forEach(item => {
+            doc.setFont("helvetica", "bold");
+            line(`> CONDIÇÃO: ${item.condicao} (${item.prioridadeLabel})`);
+            doc.setFont("helvetica", "normal");
+            if(item.estabilizadores) line(`  Estabilizadores: ${item.estabilizadores}`);
+            
+            // Mostrar Iniciais e Progressão se existirem
+            if(item.exercicios_iniciais) {
+                line(`  [FASE 1 - INICIAL]: ${item.exercicios_iniciais}`);
+                if(R.gravidade !== "Grave" && item.exercicios_progressao) {
+                   line(`  [FASE 2 - EVOLUÇÃO]: ${item.exercicios_progressao}`);
+                }
+            } else {
+                line(`  Exercícios: ${item.exerciciosRecomendados}`);
+            }
+
+            if(item.evitar) line(`  EVITAR: ${item.evitar}`);
+            line(`  OBS: ${item.obs}`);
+            y+=4;
+        });
+    }
+
+    doc.save(`AESIC_PRO_${R.nome}.pdf`);
+}
+
+function loadLast(){
+    const data = localStorage.getItem("lastAESIC");
+    if(data) {
+        const d = JSON.parse(data);
+        document.getElementById("nome").value = d.nome || "";
+        alert("Última avaliação carregada. Clique em CALCULAR para atualizar o score.");
+    } else { alert("Nenhum histórico encontrado."); }
+}
+</script>
+
+</body>
+</html>
